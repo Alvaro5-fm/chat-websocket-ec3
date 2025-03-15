@@ -5,6 +5,15 @@ public class Message {
     private String contenido;
     private String envio;
 
+    public Message() {
+    }
+
+    public Message(Tiponotificacion tiponotificacion, String contenido, String envio) {
+        this.tiponotificacion = tiponotificacion;
+        this.contenido = contenido;
+        this.envio = envio;
+    }
+
     public Tiponotificacion getTiponotificacion() {
         return tiponotificacion;
     }

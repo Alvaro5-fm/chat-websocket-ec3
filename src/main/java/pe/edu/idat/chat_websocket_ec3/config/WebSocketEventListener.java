@@ -25,15 +25,13 @@ public class WebSocketEventListener {
 
         String usuario = (String)headerAccessor.getSessionAttributes().get("username");
 
-        if(usuario != null){
+        if (usuario != null) {
             Message mensaje = new Message();
             mensaje.setTiponotificacion(Tiponotificacion.DEJAR);
             mensaje.setEnvio(usuario);
+            mensaje.setContenido("Usuario " + usuario + " ha salido del chat");
 
-            messageSendingOperations.convertAndSend("/topic/public",mensaje);
+            messageSendingOperations.convertAndSend("/topic/public", mensaje);
         }
-
-
     }
-
 }
