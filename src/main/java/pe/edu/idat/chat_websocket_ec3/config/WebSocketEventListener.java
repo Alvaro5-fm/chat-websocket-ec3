@@ -8,6 +8,9 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import pe.edu.idat.chat_websocket_ec3.chat.model.Message;
 import pe.edu.idat.chat_websocket_ec3.chat.model.Tiponotificacion;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class WebSocketEventListener {
 
@@ -20,18 +23,25 @@ public class WebSocketEventListener {
 
 
     @EventListener
-    public void socketDisconectListener(SessionDisconnectEvent event){
+    public void socketDisconectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-
-        String usuario = (String)headerAccessor.getSessionAttributes().get("username");
+        String usuario = (String) headerAccessor.getSessionAttributes().get("username");
 
         if (usuario != null) {
-            Message mensaje = new Message();
-            mensaje.setTiponotificacion(Tiponotificacion.DEJAR);
-            mensaje.setEnvio(usuario);
-            mensaje.setContenido("Usuario " + usuario + " ha salido del chat");
+            // Notificación de tipo DEJAR
+            Message mensajeDejar = new Message();
+            mensajeDejar.setTiponotificacion(Tiponotificacion.DEJAR);
+            mensajeDejar.setEnvio(usuario);
+            mensajeDejar.setContenido("❌ Usuario " + usuario + " ha salido del chat");
+            messageSendingOperations.convertAndSend("/topic/public", mensajeDejar);
 
-            messageSendingOperations.convertAndSend("/topic/public", mensaje);
+            // Notificación de tipo INFO con la hora de salida
+            Message mensajeInfo = new Message();
+            mensajeInfo.setTiponotificacion(Tiponotificacion.INFO);
+            mensajeInfo.setEnvio(usuario);
+            String horaSalida = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm a"));
+            mensajeInfo.setContenido("ℹ️ Usuario " + usuario + " salió a las " + horaSalida);
+            messageSendingOperations.convertAndSend("/topic/public", mensajeInfo);
         }
     }
 }

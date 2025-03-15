@@ -20,7 +20,7 @@ public class ChatController {
     @SendTo("/topic/public")
     public Message agregarUsuario(@Payload Message message, SimpMessageHeaderAccessor headerAccessor){
         headerAccessor.getSessionAttributes().put("username",message.getEnvio());
-        message.setContenido("Usuario " + message.getEnvio() + " se ha unido al chat");
+        message.setContenido("✅Usuario " + message.getEnvio() + " se ha unido al chat");
         return message;
     }
 
@@ -29,8 +29,6 @@ public class ChatController {
     public Message enviarNotificacion(@Payload Message message) {
         if (message.getContenido().toLowerCase().contains("error")) {
             message.setTiponotificacion(Tiponotificacion.ERROR);
-        } else if (message.getContenido().toLowerCase().contains("advertencia")) {
-            message.setTiponotificacion(Tiponotificacion.WARNING);
         } else {
             message.setTiponotificacion(Tiponotificacion.INFO);
         }
