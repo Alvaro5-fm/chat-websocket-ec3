@@ -6,6 +6,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import pe.edu.idat.chat_websocket_ec3.chat.model.Message;
+import pe.edu.idat.chat_websocket_ec3.chat.model.Tiponotificacion;
 
 @Controller
 public class ChatController {
@@ -20,6 +21,19 @@ public class ChatController {
     public Message agregarUsuario(@Payload Message message, SimpMessageHeaderAccessor headerAccessor){
         headerAccessor.getSessionAttributes().put("username",message.getEnvio());
         message.setContenido("Usuario " + message.getEnvio() + " se ha unido al chat");
+        return message;
+    }
+
+    @MessageMapping("/enviarNotificacion")
+    @SendTo("/topic/notificaciones")
+    public Message enviarNotificacion(@Payload Message message) {
+        if (message.getContenido().toLowerCase().contains("error")) {
+            message.setTiponotificacion(Tiponotificacion.ERROR);
+        } else if (message.getContenido().toLowerCase().contains("advertencia")) {
+            message.setTiponotificacion(Tiponotificacion.WARNING);
+        } else {
+            message.setTiponotificacion(Tiponotificacion.INFO);
+        }
         return message;
     }
 }
