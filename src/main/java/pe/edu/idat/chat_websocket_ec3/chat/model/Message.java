@@ -5,13 +5,24 @@ public class Message {
     private String contenido;
     private String envio;
 
+    private String hora; // nueva propiedad
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
     public Message() {
     }
 
-    public Message(Tiponotificacion tiponotificacion, String contenido, String envio) {
-        this.tiponotificacion = tiponotificacion;
+    public Message(String contenido, String envio, String hora, Tiponotificacion tiponotificacion) {
         this.contenido = contenido;
         this.envio = envio;
+        this.hora = hora;
+        this.tiponotificacion = tiponotificacion;
     }
 
     public Tiponotificacion getTiponotificacion() {

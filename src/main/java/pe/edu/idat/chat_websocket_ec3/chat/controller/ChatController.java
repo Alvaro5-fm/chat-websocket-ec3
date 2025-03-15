@@ -7,6 +7,9 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import pe.edu.idat.chat_websocket_ec3.chat.model.Message;
 import pe.edu.idat.chat_websocket_ec3.chat.model.Tiponotificacion;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 
 @Controller
 public class ChatController {
@@ -14,12 +17,14 @@ public class ChatController {
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public Message enviarMensaje(@Payload Message message){
+        message.setHora(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
         return message;
     }
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/public")
     public Message agregarUsuario(@Payload Message message, SimpMessageHeaderAccessor headerAccessor){
         headerAccessor.getSessionAttributes().put("username",message.getEnvio());
+        message.setHora(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
         message.setContenido("✅Usuario " + message.getEnvio() + " se ha unido al chat");
         return message;
     }

@@ -1,28 +1,41 @@
-
-
 body {
     margin: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #f4f4f4;
 }
 
-
-
 .card {
     max-width: 500px;
     width: 100%;
+    margin: 30px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #fff;
 }
 
 #chat-page ul {
     list-style-type: none;
-    padding: 0;
+    padding: 10px;
     margin: 0;
     background-color: #FFF;
+    display: flex;
+    flex-direction: column;
 }
 
 #chat-page ul li {
-    padding: 10px;
-    border-bottom: 1px solid #f4f4f4;
+    margin: 5px 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.chat-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
 }
 
 .chat-header h2 {
@@ -31,10 +44,64 @@ body {
 
 @media (max-width: 480px) {
     .card {
-        margin: 0 15px;
+        margin: 0 10px;
     }
 
     .chat-header h2 {
         font-size: 1.1em;
     }
+}
+
+#messageArea {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Mensaje del usuario actual */
+.message.mine {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    border-radius: 18px 18px 0 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
+    text-align: right;
+}
+
+/* Mensaje de otros */
+.message.theirs {
+    background-color: #e3f2fd;
+    align-self: flex-start;
+    border-radius: 18px 18px 18px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.message .fw-bold {
+    margin-bottom: 5px;
+}
+
+.message .text-muted {
+    font-size: 0.75rem;
+    margin-top: 5px;
+    color: #666;
+}
+
+/* Eventos como “se ha unido al chat” */
+.event-message {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin: 5px auto;
+    max-width: 80%;
 }
